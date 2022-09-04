@@ -22,9 +22,7 @@ module.exports = {
           bodyParts = [WORK,WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE]; // 750
         }
 
-        const spawn = room.find(FIND_MY_STRUCTURES, {
-            filter: { structureType: STRUCTURE_SPAWN }
-        })[0];
+        const spawn = room.spawns[0];
         if (spawn && bodyParts) {
             spawn.spawnCreep(bodyParts, `harvester_${Game.time}`, {
                 memory: {

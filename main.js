@@ -1,3 +1,5 @@
+require('prototype.room');
+
 const roles = {
     'harvester': require('role.harvester')
 };
