@@ -8,7 +8,7 @@ var roleHarvester = {
      */
     run: function(creep) {
         const freeCarry = creep.carryCapacity - creep.carry[RESOURCE_ENERGY];
-console.log(freeCarry)
+
         if (creep.memory.upgrading && freeCarry == creep.carryCapacity) creep.memory.upgrading = false;
 
         if(!creep.memory.upgrading && freeCarry > 0) {
