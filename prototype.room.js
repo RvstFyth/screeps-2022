@@ -32,3 +32,49 @@ Object.defineProperty(Room.prototype, 'spawns', {
       return this._spawns;
     }
 });
+
+Object.defineProperty(Room.prototype, 'constructionSites', {
+    get: function()
+    {
+      if(!this._constructionSites) {
+        this._constructionSites = this.find(FIND_CONSTRUCTION_SITES);
+      }
+      return this._constructionSites;
+    }
+});
+
+Object.defineProperty(Room.prototype, 'containers', {
+    get: function() {
+      if(!this._containers) {
+        this._containers = this.find(FIND_STRUCTURES, {
+          filter: s => s.structureType === STRUCTURE_CONTAINER
+        })
+      }
+
+      return this._containers;
+    }
+});
+
+Object.defineProperty(Room.prototype, 'walls', {
+    get: function() {
+      if(!this._walls) {
+        this._walls = this.find(FIND_STRUCTURES, {
+          filter: s => s.structureType === STRUCTURE_WALL
+        })
+      }
+
+      return this._walls;
+    }
+});
+
+Object.defineProperty(Room.prototype, 'roads', {
+  get: function() {
+    if(!this._roads) {
+      this._roads = this.find(FIND_STRUCTURES, {
+        filter: s => s.structureType === STRUCTURE_ROAD
+      })
+    }
+
+    return this._roads;
+  }
+});
