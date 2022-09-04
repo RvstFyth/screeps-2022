@@ -1,15 +1,55 @@
 const roles = {
-    'harvester': require('role.harvester')
+    'harvester': require('role.harvester'),
+    'builder': require('role.builder')
 };
 
 module.exports = {
     run: function(room, creeps) 
     {
         const harvesters = creeps.filter(c => c.memory.role == 'harvester');
+        const builders = creeps.filter(c => c.memory.role == 'builder');
+
         if (harvesters.length < 2) this.spawnHarvester(room);
+        if (room.constructionSites.length > 1 && builders.length < 1) this.spawnBuilder(room);
 
         for (const creep of creeps) {
             if (roles[creep.memory.role]) roles[creep.memory.role].run(creep);
+        }
+    },
+
+    spawnBuilder: function(room)
+    {
+        let bodyParts;
+
+        if(room.energyAvailable <= 300) {
+            bodyParts = [WORK, CARRY, MOVE, MOVE];
+        }
+    
+        else if(room.energyAvailable <= 400) {
+            bodyParts = [WORK, CARRY, MOVE, MOVE];
+        }
+        else if(room.energyAvailable <= 500) {
+            bodyParts = [WORK,CARRY,CARRY,MOVE,MOVE,MOVE]; // 350
+        }
+        else if(room.energyAvailable < 1500) {
+            bodyParts = [WORK,CARRY,CARRY,CARRY,CARRY, CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE];
+        }
+        else if(room.energyAvailable >= 1500) {
+          bodyParts = [WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY, CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE];
+        }
+        else {
+            bodyParts = [WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE];
+        }
+
+        const spawn = room.spawns[0];
+
+        if (spawn && bodyParts) {
+            spawn.spawnCreep(bodyParts, `bld_${Game.time}`, {
+                memory: {
+                    role: 'builder',
+                    room: room.name
+                }
+            });
         }
     },
 
@@ -32,7 +72,7 @@ module.exports = {
 
         const spawn = room.spawns[0];
         if (spawn && bodyParts) {
-            spawn.spawnCreep(bodyParts, `harvester_${Game.time}`, {
+            spawn.spawnCreep(bodyParts, `hrv_${Game.time}`, {
                 memory: {
                     role: 'harvester',
                     room: room.name
