@@ -1,8 +1,16 @@
+const roles = {
+    'harvester': require('role.harvester')
+};
+
 module.exports = {
     run: function(room, creeps) 
     {
         const harvesters = creeps.filter(c => c.memory.role == 'harvester');
         if (harvesters.length < 2) this.spawnHarvester(room);
+
+        for (const creep of creeps) {
+            if (roles[creep.memory.role]) roles[creep.memory.role].run(creep);
+        }
     },
 
     spawnHarvester: function(room)
