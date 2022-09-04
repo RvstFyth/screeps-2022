@@ -9,7 +9,11 @@ module.exports = {
         const harvesters = creeps.filter(c => c.memory.role == 'harvester');
         const builders = creeps.filter(c => c.memory.role == 'builder');
 
-        if (harvesters.length < 2) this.spawnHarvester(room);
+        for (let source of room.sources) {
+            const hrv = harvesters.filter(c => c.memory.sourceID == source.id);
+            if (hrv.length < source.spots) this.spawnHarvester(room, source.id);
+        }
+
         if (room.constructionSites.length > 1 && builders.length < 1) this.spawnBuilder(room);
 
         for (const creep of creeps) {
@@ -53,7 +57,7 @@ module.exports = {
         }
     },
 
-    spawnHarvester: function(room)
+    spawnHarvester: function(room, sourceID)
     {
         let bodyParts;
 
@@ -75,7 +79,8 @@ module.exports = {
             spawn.spawnCreep(bodyParts, `hrv_${Game.time}`, {
                 memory: {
                     role: 'harvester',
-                    room: room.name
+                    room: room.name,
+                    sourceID: sourceID
                 }
             });
         }

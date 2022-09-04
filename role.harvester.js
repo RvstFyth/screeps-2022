@@ -3,7 +3,6 @@ var roleHarvester = {
     /**
      * TODO:
      * - Harvesters should not upgrade controller
-     * - Save a dedictated source in creep mem
      * 
      */
     run: function(creep) {
@@ -13,12 +12,24 @@ var roleHarvester = {
 
         if(!creep.memory.upgrading && freeCarry > 0) {
             const sources = creep.room.find(FIND_SOURCES);
-            if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
+            if (creep.memory.sourceID) {
+                const source = Game.getObjectById(creep.memory.sourceID);
+                if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}});
+                }
+            }
+            else {
+                if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
+                }
             }
         }
         else {
-            let targets = creep.room.find(FIND_STRUCTURES, {
+            let targets;
+            if (creep.memory.upgrading) {
+                targets = [];
+            }
+            targets = creep.room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
                     return (structure.structureType == STRUCTURE_EXTENSION ||
                         structure.structureType == STRUCTURE_SPAWN ||
