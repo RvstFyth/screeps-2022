@@ -17,7 +17,7 @@ module.exports = {
             const droppedResources = containerPos.findInRange(FIND_DROPPED_RESOURCES, 1)[0];
             if (droppedResources) {
                 if (creep.pickup(droppedResources) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(droppedResources, {visualizePathStyle: {stroke: '#ffaa00'}});
+                    creep.moveTo(droppedResources, {visualizePathStyle: {stroke: '#ffaa00'}, maxRooms: 1});
                 }
             } else {
                 const container = containerPos.findInRange(FIND_STRUCTURES, 1, {
@@ -25,7 +25,7 @@ module.exports = {
                 })[0];
 
                 if (container && creep.withdraw(container, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(container, {visualizePathStyle: {stroke: '#ffaa00'}});
+                    creep.moveTo(container, {visualizePathStyle: {stroke: '#ffaa00'}, maxRooms: 1});
                 }
             }
         }
@@ -36,7 +36,7 @@ module.exports = {
 
             if (target) {
                 if (creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(target, {visualizePathStyle: {stroke: '#ffaa00'}});
+                    creep.moveTo(target, {visualizePathStyle: {stroke: '#ffaa00'}, maxRooms: 1});
                 }
             }
         }

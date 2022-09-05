@@ -20,9 +20,9 @@ module.exports = {
             let target = creep.room.containers.filter(c => c.store[RESOURCE_ENERGY] > creep.carryCapacity * 2)[0];
             if (!target) {
                 const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES)[0];
-                if (droppedResources.amount > creep.carryCapacity) {
+                if (droppedResources && droppedResources.amount > creep.carryCapacity) {
                     if (creep.pickup(droppedResources) === ERR_NOT_IN_RANGE) {
-                        creep.moveTo(droppedResources, {visualizePathStyle: {stroke: '#ffaa00'}});
+                        creep.moveTo(droppedResources, {visualizePathStyle: {stroke: '#ffaa00'}, maxRooms: 1});
                     }
                     return;
                 }
@@ -31,7 +31,7 @@ module.exports = {
 
             if (target) {
                 if (creep.withdraw(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(target, {visualizePathStyle: {stroke: '#ffaa00'}});
+                    creep.moveTo(target, {visualizePathStyle: {stroke: '#ffaa00'}, maxRooms: 1});
                 }
             }
         }
@@ -42,12 +42,12 @@ module.exports = {
 
             if (creep.memory.upgrade) {
                 if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}});
+                    creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffaa00'}, maxRooms: 1});
                 }
             } else {
                 if (creep.room.constructionSites.length) {
                     if (creep.build(creep.room.constructionSites[0]) === ERR_NOT_IN_RANGE) {
-                        creep.moveTo(creep.room.constructionSites[0], {visualizePathStyle: {stroke: '#ffaa00'}});
+                        creep.moveTo(creep.room.constructionSites[0], {visualizePathStyle: {stroke: '#ffaa00'}, maxRooms: 1});
                     }
                 }
                 const damaged = creep.room.find(FIND_STRUCTURES, {
@@ -55,12 +55,12 @@ module.exports = {
                 });
                 if (damaged.length) {
                     if (creep.repair(damaged[0]) === ERR_NOT_IN_RANGE) {
-                        creep.moveTo(target, {visualizePathStyle: {stroke: '#ffaa00'}});
+                        creep.moveTo(target, {visualizePathStyle: {stroke: '#ffaa00'}, maxRooms: 1});
                     }
                 }
                 else {
                     if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}});
+                        creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffaa00'}, maxRooms: 1});
                     }
                 }
             }
