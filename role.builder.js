@@ -12,7 +12,6 @@ module.exports = {
         const freeCarry = creep.carryCapacity - creep.carry[RESOURCE_ENERGY];
 
         if (creep.memory.working && freeCarry == creep.carryCapacity) {
-            creep.say(1)
             creep.memory.working = false;
             creep.memory.upgrade = false;
         }
