@@ -15,6 +15,7 @@ module.exports = {
         const builders = creeps.filter(c => c.memory.role == 'builder');
         const miners = creeps.filter(c => c.memory.role == 'miner');
         const haulers = creeps.filter(c => c.memory.role == 'hauler');
+        const rangers = creeps.filter(c => c.memory.role == 'ranger');
 
         for (let source of room.sources) {
             const mnr = miners.filter(c => c.memory.targetID == source.id);
@@ -26,9 +27,27 @@ module.exports = {
         }
 
         if (!this.spawned && /*room.constructionSites.length > 0 && */builders.length < 1) this.spawnBuilder(room);
+        if (!this.spawned && !rangers.length) this.spawnRanger(room);
 
         for (const creep of creeps) {
             if (roles[creep.memory.role]) roles[creep.memory.role].run(creep);
+        }
+    },
+
+    spawnRanger(room) 
+    {
+        let bodyParts = [RANGED_ATTACK,MOVE];
+
+        const spawn = room.spawns[0];
+
+        if (spawn && bodyParts) {
+            spawn.spawnCreep(bodyParts, `rngr_${Game.time}`, {
+                memory: {
+                    role: 'ranger',
+                    room: room.name
+                }
+            });
+            this.spawned = true;
         }
     },
 

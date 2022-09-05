@@ -16,6 +16,13 @@ module.exports = {
         if(!creep.memory.working && freeCarry > 0) {
             let target = creep.room.containers.filter(c => c.store[RESOURCE_ENERGY] > creep.carryCapacity * 2)[0];
             if (!target) {
+                const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES)[0];
+                if (droppedResources.amount > creep.carryCapacity * 2) {
+                    if (creep.pickup(droppedResources) === ERR_NOT_IN_RANGE) {
+                        creep.moveTo(droppedResources, {visualizePathStyle: {stroke: '#ffaa00'}});
+                    }
+                    return;
+                }
                 target = creep.room.spawns.filter(c => c.store[RESOURCE_ENERGY] > 250)[0];
             }
 
