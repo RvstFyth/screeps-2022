@@ -37,6 +37,11 @@ module.exports = {
             const spawn = creep.room.spawns.filter(s => s.store.getFreeCapacity(RESOURCE_ENERGY) > 0)[0];
             if (spawn) target = spawn;
 
+            if (!target) {
+                const tower = creep.room.towers.filter(s =>s.store.getFreeCapacity(RESOURCE_ENERGY) > 0)[0];
+                if (tower) target = tower;
+            }
+
             if (target) {
                 if (creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                     creep.moveTo(target, {visualizePathStyle: {stroke: '#ffaa00'}, maxRooms: 1});
