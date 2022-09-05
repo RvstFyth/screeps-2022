@@ -1,6 +1,8 @@
 const roles = {
     'harvester': require('role.harvester'),
-    'builder': require('role.builder')
+    'builder': require('role.builder'),
+    'miner': require('role.miner'),
+    'hauler': require('role.hauler')
 };
 
 module.exports = {
@@ -9,18 +11,62 @@ module.exports = {
 
     run: function(room, creeps) 
     {
-        const harvesters = creeps.filter(c => c.memory.role == 'harvester');
+        this.spawned = false;
         const builders = creeps.filter(c => c.memory.role == 'builder');
+        const miners = creeps.filter(c => c.memory.role == 'miner');
+        const haulers = creeps.filter(c => c.memory.role == 'hauler');
 
         for (let source of room.sources) {
-            const hrv = harvesters.filter(c => c.memory.sourceID == source.id);
-            if (hrv.length < source.spots) this.spawnHarvester(room, source.id);
+            const mnr = miners.filter(c => c.memory.targetID == source.id);
+            if (!mnr.length) this.spawnMiner(room, source);
+            const hlr = haulers.filter(c => c.memory.targetID == source.id);
+            if (!this.spawned && !hlr.length) this.spawnHauler(room, source);
+            // const hrv = harvesters.filter(c => c.memory.sourceID == source.id);
+            // if (hrv.length < source.spots) this.spawnHarvester(room, source.id);
         }
 
         if (!this.spawned && /*room.constructionSites.length > 0 && */builders.length < 1) this.spawnBuilder(room);
 
         for (const creep of creeps) {
             if (roles[creep.memory.role]) roles[creep.memory.role].run(creep);
+        }
+    },
+
+    spawnMiner: function(room, source)
+    {
+        let bodyParts = [WORK,MOVE];
+
+        const spawn = room.spawns[0];
+
+        if (spawn && bodyParts) {
+            spawn.spawnCreep(bodyParts, `mnr_${Game.time}`, {
+                memory: {
+                    role: 'miner',
+                    room: room.name,
+                    targetID: source.id,
+                    targetX: source.containerPos.x,
+                    targetY: source.containerPos.y
+                }
+            });
+            this.spawned = true;
+        }
+    },
+
+    spawnHauler: function(room, source)
+    {
+        let bodyParts = [CARRY,CARRY,MOVE,MOVE];
+
+        const spawn = room.spawns[0];
+
+        if (spawn && bodyParts) {
+            spawn.spawnCreep(bodyParts, `hlr_${Game.time}`, {
+                memory: {
+                    role: 'hauler',
+                    room: room.name,
+                    targetID: source.id
+                }
+            });
+            this.spawned = true;
         }
     },
 

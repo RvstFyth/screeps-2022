@@ -27,13 +27,14 @@ Object.defineProperty(Source.prototype, 'containerPos', {
         if (this._containerPos == undefined) {
             if (this.memory.containerPos == undefined) {
                 let pos;
-                const container = this.pos.findInRange(room.containers, 1)[0];
+                const container = this.pos.findInRange(this.room.containers, 1)[0];
                 if (container) pos = container.pos;
                 else {
-                    const construction = source.pos.findInRange(room.constructionSites, 1).filter(c => c.structureType === STRUCTURE_CONTAINER)[0];
-                    if (construction) post = construction.pos;
+                    
+                    const construction = this.pos.findInRange(this.room.constructionSites, 1).filter(c => c.structureType === STRUCTURE_CONTAINER)[0];
+                    if (construction) pos = construction.pos;
                     else {
-                        const path = room.findPath(room.controller.pos, source.pos, {
+                        const path = room.findPath(this.room.controller.pos, source.pos, {
                             ignoreCreeps: true,
                             ignoreRoads: true,
                             ignoreDestructibleStructures: true
@@ -42,8 +43,9 @@ Object.defineProperty(Source.prototype, 'containerPos', {
                         pos = path[path.length - 2];
                     }
                 }
-                this._containerPos = pos;
+                this.memory.containerPos = pos;
             }
+            this._containerPos = this.memory.containerPos;
         }
 
         return this._containerPos;

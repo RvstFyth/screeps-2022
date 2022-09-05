@@ -1,10 +1,6 @@
 require('prototype.room');
 require('prototype.source');
 
-const roles = {
-    'harvester': require('role.harvester')
-};
-
 const controllers = {
     'room': require('controller.room')
 };
