@@ -83,9 +83,7 @@ Object.defineProperty(Room.prototype, 'hostiles', {
   get: function()
   {
     if(!this._hostiles) {
-      this._hostiles = this.find(FIND_HOSTILE_CREEPS, {
-        filter: c => alliList.indexOf(c.owner.username) === -1
-      });
+      this._hostiles = this.find(FIND_HOSTILE_CREEPS);
     }
 
     return this._hostiles;
