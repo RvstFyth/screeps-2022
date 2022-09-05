@@ -21,6 +21,38 @@ Object.defineProperty(Source.prototype, 'memory', {
     }
 });
 
+Object.defineProperty(Source.prototype, 'containerPos', {
+
+    get: function () {
+        if (this._containerPos == undefined) {
+            if (this.memory.containerPos == undefined) {
+                let pos;
+                const container = this.pos.findInRange(room.containers, 1)[0];
+                if (container) pos = container.pos;
+                else {
+                    const construction = source.pos.findInRange(room.constructionSites, 1).filter(c => c.structureType === STRUCTURE_CONTAINER)[0];
+                    if (construction) post = construction.pos;
+                    else {
+                        const path = room.findPath(room.controller.pos, source.pos, {
+                            ignoreCreeps: true,
+                            ignoreRoads: true,
+                            ignoreDestructibleStructures: true
+                        });
+    
+                        pos = path[path.length - 2];
+                    }
+                }
+                this._containerPos = pos;
+            }
+        }
+
+        return this._containerPos;
+    },
+
+    enumerable: false,
+    configurable: true
+});
+
 Object.defineProperty(Source.prototype, 'spots', {
     get: function () {
         if (this._freeSpaceCount == undefined) {

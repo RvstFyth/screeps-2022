@@ -14,7 +14,7 @@ module.exports = {
             if (hrv.length < source.spots) this.spawnHarvester(room, source.id);
         }
 
-        if (room.constructionSites.length > 1 && builders.length < 1) this.spawnBuilder(room);
+        if (/*room.constructionSites.length > 0 && */builders.length < 1) this.spawnBuilder(room);
 
         for (const creep of creeps) {
             if (roles[creep.memory.role]) roles[creep.memory.role].run(creep);

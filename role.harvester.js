@@ -37,14 +37,12 @@ var roleHarvester = {
                         structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
                 }
             });
-            let upgrade = false;
             if (!targets.length) {
                 targets = [creep.room.controller];
-                upgrade = true;
                 creep.memory.upgrading = true;
             }
             if(targets.length > 0) {
-                if (upgrade) {
+                if (creep.memory.upgrading) {
                     if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(creep.room.controller);
                     }
