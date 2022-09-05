@@ -6,7 +6,7 @@ module.exports = {
      */
     run: function(creep)
     {
-        const hostiles = creep.room.find(FIND_HOSTILES);
+        const hostiles = creep.room.hostiles;
         if (hostiles.length)  {
             const target = creep.pos.findClosestByRange(hostiles);
             if (creep.rangedAttack(target) === ERR_NOT_IN_RANGE) {

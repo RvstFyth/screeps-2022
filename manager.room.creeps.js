@@ -2,7 +2,8 @@ const roles = {
     'harvester': require('role.harvester'),
     'builder': require('role.builder'),
     'miner': require('role.miner'),
-    'hauler': require('role.hauler')
+    'hauler': require('role.hauler'),
+    'ranger': require('role.ranger')
 };
 
 module.exports = {
