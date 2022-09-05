@@ -4,6 +4,9 @@ const roles = {
 };
 
 module.exports = {
+
+    spawned: false,
+
     run: function(room, creeps) 
     {
         const harvesters = creeps.filter(c => c.memory.role == 'harvester');
@@ -14,7 +17,7 @@ module.exports = {
             if (hrv.length < source.spots) this.spawnHarvester(room, source.id);
         }
 
-        if (/*room.constructionSites.length > 0 && */builders.length < 1) this.spawnBuilder(room);
+        if (!this.spawned && /*room.constructionSites.length > 0 && */builders.length < 1) this.spawnBuilder(room);
 
         for (const creep of creeps) {
             if (roles[creep.memory.role]) roles[creep.memory.role].run(creep);
@@ -54,6 +57,7 @@ module.exports = {
                     room: room.name
                 }
             });
+            this.spawned = true;
         }
     },
 
@@ -83,6 +87,7 @@ module.exports = {
                     sourceID: sourceID
                 }
             });
+            this.spawned = true;
         }
     }
 }
