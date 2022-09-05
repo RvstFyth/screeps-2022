@@ -27,7 +27,7 @@ module.exports = {
         }
 
         if (!this.spawned && /*room.constructionSites.length > 0 && */builders.length < 1) this.spawnBuilder(room);
-        if (!this.spawned && !rangers.length) this.spawnRanger(room);
+        if (!this.spawned && room.hostiles.length && !rangers.length) this.spawnRanger(room);
 
         for (const creep of creeps) {
             if (roles[creep.memory.role]) roles[creep.memory.role].run(creep);
