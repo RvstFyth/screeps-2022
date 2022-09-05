@@ -1,10 +1,13 @@
 module.exports = {
 
+    /**
+     * 
+     * @param {Creep} creep 
+     */
     run: function(creep)
     {
-        const freeCarry = creep.carryCapacity - creep.carry[RESOURCE_ENERGY];
-        if (freeCarry === 0) creep.memory.hauling = false;
-        else if (freeCarry === creep.carryCapacity) creep.memory.hauling = true;
+        if (creep.store.getFreeCapacity() === 0) creep.memory.hauling = false;
+        else if (creep.store.getUsedCapacity() === 0) creep.memory.hauling = true;
 
         const source = Game.getObjectById(creep.memory.targetID);
         const containerPos = new RoomPosition(

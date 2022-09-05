@@ -3,7 +3,7 @@ module.exports = {
     /**
      * TODO:
      * - Make dedicated repair unit
-     *  
+     * @param {Creep} creep 
      */
     run: function(creep)
     {
@@ -11,13 +11,13 @@ module.exports = {
 
         const freeCarry = creep.carryCapacity - creep.carry[RESOURCE_ENERGY];
 
-        if (creep.memory.working && freeCarry == creep.carryCapacity) {
+        if (creep.memory.working && creep.store.getUsedCapacity() === 0) {
             creep.memory.working = false;
             creep.memory.upgrade = false;
         }
-        if (freeCarry === 0) creep.memory.working = true;
+        if (creep.store.getFreeCapacity() === 0) creep.memory.working = true;
 
-        if(!creep.memory.working && freeCarry > 0) {
+        if(!creep.memory.working && creep.store.getFreeCapacity() > 0) {
             let target = creep.room.containers.filter(c => c.store[RESOURCE_ENERGY] > creep.carryCapacity * 2)[0];
             if (!target) {
                 const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES)[0];

@@ -2,8 +2,8 @@ module.exports = {
 
     /**
      * Drop miner. Creep only mines and drops the resources on the tile below.
+     * @param {Creep} creep 
      */
-
     run: function(creep)
     {
         if (creep.pos.x != creep.memory.targetX || creep.pos.y != creep.memory.targetY) {
