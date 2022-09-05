@@ -89,3 +89,15 @@ Object.defineProperty(Room.prototype, 'hostiles', {
     return this._hostiles;
   }
 });
+
+Object.defineProperty(Room.prototype, 'towers', {
+  get: function()
+  {
+    if(!this._spawns) {
+      this._spawns = this.find(FIND_STRUCTURES, {
+        filter: s => s.structureType === STRUCTURE_TOWER
+      });
+    }
+    return this._spawns;
+  }
+});
